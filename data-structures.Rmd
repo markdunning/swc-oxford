@@ -1,0 +1,48 @@
+---
+title: "Data Structures"
+author: "Mark"
+date: "13 October 2017"
+output: html_document
+---
+
+
+```{r}
+cat_file <- "https://raw.githubusercontent.com/COMBINE-Australia/RNAseq-R/gh-pages/data/feline-data.csv"
+download.file(cat_file, destfile="feline-data.csv")
+?download.file
+cats <- read.csv("feline-data.csv")
+cats
+```
+
+```{r}
+cats <- read.csv("data/feline-data.csv")
+getwd()
+file.exists("feline-data.csv")
+file.exists("data/feline-data.csv")
+```
+
+```{r}
+tmp <- read.delim("feline-data.csv")
+tmp
+```
+
+```{r}
+cats$coat
+cats$weight
+cats[2,]
+cats$weight * 100 
+```
+
+```{r}
+
+```
+```{r}
+fahr_to_celsius <- function(temp) {
+  stopifnot(!is.numeric(temp))
+  temp_k <- fahr_to_kelvin(temp)
+  result <- kelvin_to_celsius(temp_k)
+  return(result)
+}
+
+```
+

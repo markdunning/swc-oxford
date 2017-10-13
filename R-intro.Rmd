@@ -1,0 +1,84 @@
+---
+title: "R Intro"
+author: "Mark"
+date: "13 October 2017"
+output: html_document
+---
+
+Some basic Maths
+
+```{r}
+1 + 100
+
+10 * 10
+
+(10 * 10) + 2
+```
+
+Now lets' try something more complicated
+
+```{r}
+sin(1)
+log(1)
+
+
+```
+
+Create some variables....
+
+```{r}
+x <- sin(1)
+x * 10
+
+
+```
+
+```{r}
+x == 5
+
+```
+
+Vectors....
+
+
+```{r}
+myVector <- 1:10
+myVector
+```
+
+```{r}
+myVector *2
+```
+
+Installing Packages
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
+
+```{r}
+
+library(ggplot2)
+```
+
+## Challenge 2
+
+```{r}
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+```
+
+## Challenge 3
+
+```{r}
+mass <- 47.5
+age <- 122
+mass <- mass * 2.3
+age <- age - 20
+mass > age
+```
+
+The mass was greater than age!

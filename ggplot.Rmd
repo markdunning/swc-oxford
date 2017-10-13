@@ -1,0 +1,96 @@
+---
+title: "plotting"
+author: "Mark"
+date: "13 October 2017"
+output: html_document
+---
+Loading the data
+```{r}
+gapminder_file <- "https://raw.githubusercontent.com/COMBINE-Australia/RNAseq-R/gh-pages/data/gapminder-FiveYearData.csv"
+download.file(gapminder_file, destfile="gapminder-FiveYearData.csv")
+gapminder <- read.csv("gapminder-FiveYearData.csv")
+
+```
+
+```{r}
+gapminder
+```
+
+
+```{r}
+library(ggplot2)
+ggplot(data = gapminder, aes(x = gdpPercap, y=lifeExp)) + geom_point()
+
+```
+
+## Challenge 1
+
+How does gdp change over time?
+
+```{r}
+ggplot(data = gapminder, aes(x = year, y=lifeExp)) + geom_point(color="red")
+```
+
+## Challenge 2
+
+Colour previous plot by continent
+
+```{r}
+ggplot(data = gapminder, aes(x = year, y=lifeExp,color=continent)) + geom_point()
+
+```
+
+```{r}
+ggplot(data = gapminder, aes(x = year, y=lifeExp,by=country)) + geom_line(aes(color=continent)) +geom_point()
+```
+
+```{r}
+ggplot(data = gapminder, aes(x = year, y=lifeExp,by=country)) +geom_point() + geom_line(aes(color=continent))  
+```
+
+```{r}
+ggplot(data = gapminder, aes(x = gdpPercap, y=lifeExp,color=continent)) + geom_point()
+```
+```{r}
+ggplot(data = gapminder, aes(x = gdpPercap, y=lifeExp)) + geom_point() + scale_x_log10() + geom_smooth(method="lm")
+```
+
+```{r}
+ggplot(data = gapminder, aes(x = gdpPercap, y=lifeExp,color=continent)) + geom_point() + scale_x_log10() + facet_wrap(~continent) 
+```
+
+```{r}
+starts.with <- substr(gapminder$country, start = 1, stop = 1)
+starts.with
+az.countries <- gapminder[starts.with %in% c("A", "Z"), ]
+az.countries
+ggplot(data = az.countries, aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country)
+```
+
+```{r}
+ggplot(data = az.countries, aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country) +
+  labs(
+    x = "Year",              # x axis title
+    y = "Life expectancy",   # y axis title
+    title = "Figure 1",      # main title of figure
+    color = "Continent"      # title of legend
+  ) + theme_dark()
+
+```
+
+```{r}
+install.packages("ggthemes")
+```
+
+## Challenge 5
+
+Density plot of GDP filled by continent
+
+```{r}
+ggplot(gapminder, aes(x=gdpPercap,fill=continent)) + geom_density(alpha=0.4) + scale_x_log10() + facet_wrap(~year)
+
+```
+
+
