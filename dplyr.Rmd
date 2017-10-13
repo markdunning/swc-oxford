@@ -1,0 +1,83 @@
+---
+title: "dplyr"
+author: "Mark"
+date: "13 October 2017"
+output: html_document
+---
+
+
+```{r}
+gapminder_file <- "https://raw.githubusercontent.com/COMBINE-Australia/RNAseq-R/gh-pages/data/gapminder-FiveYearData.csv"
+download.file(gapminder_file, destfile="gapminder-FiveYearData.csv")
+gapminder <- read.csv("gapminder-FiveYearData.csv")
+
+```
+
+```{r}
+gapminder
+```
+```{r}
+library(dplyr)
+select(gapminder, country, year,lifeExp)
+select(gapminder,-year)
+
+```
+
+```{r}
+filter(gapminder, continent == "Europe", lifeExp > 75,year==1997)
+
+```
+```{r}
+gapminder2 <- filter(gapminder, continent == "Europe", lifeExp > 75,year==1997)
+gapminder3 <- select(gapminder2, -year,-continent)
+gapminder3
+write.csv(gapminder3, file="my-filtered-results.csv")
+```
+
+```{r}
+gapminder %>% 
+  filter(continent == "Europe",lifeExp > 75, year == 1997) %>% 
+  select(-year, -continent) %>% 
+  write.csv(file="my-filtered-results.csv")
+
+```
+
+```{r}
+gapminder %>% filter(continent %in% c("Africa","Europe")) %>% 
+  select(year, country,lifeExp) %>% 
+  arrange(desc(lifeExp))
+```
+
+```{r}
+mutate(gapminder, pop = pop / 1000000, ShortName=substr(country, 1, 4))
+?mean
+```
+
+```{r}
+group_by(gapminder,continent) %>% 
+summarise(mean=mean(gdpPercap)) %>% 
+
+```
+
+```{r}
+lifeExp_bycountry <- gapminder %>%
+   group_by(country) %>%
+   summarize(mean_lifeExp=mean(lifeExp))
+lifeExp_bycountry %>%
+   filter(mean_lifeExp == min(mean_lifeExp) | mean_lifeExp == max(mean_lifeExp))
+```
+
+```{r}
+myplot <- gapminder %>%
+   # Get the start letter of each country
+   mutate(startsWith = substr(country, start = 1, stop = 1)) %>%
+   # Filter countries that start with "A" or "Z"
+   filter(startsWith %in% c("A", "Z")) %>%
+   # Make the plot
+   ggplot(aes(x = year, y = lifeExp, color = continent)) +
+   geom_line() +
+   facet_wrap( ~ country) 
+
+ggsave(myplot, file="myplot.png")
+```
+
